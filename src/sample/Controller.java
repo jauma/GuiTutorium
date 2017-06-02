@@ -1,15 +1,13 @@
 package sample;
 
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebView;
 
-import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,6 +29,13 @@ public class Controller implements Initializable {
     public Button startSuche;
     public Boolean tabNeu = false;
     public Button navi;
+    public Tab suchenTab;
+    public Tab startTab;
+    public Tab speichernTab;
+    public Tab naviTab;
+    public WebView googleLink;
+
+    public String text;
 
 
     public void changeColor(DragEvent dragEvent) {
@@ -78,7 +83,6 @@ public class Controller implements Initializable {
 
     public void suchen(MouseEvent mouseEvent) throws IOException {
         byte zeichen;
-        char buchstabe;
         String text = "";
         String text2 = "";
 
@@ -115,33 +119,37 @@ public class Controller implements Initializable {
                     System.out.println("OLD: " + oldValue.getText());
                     System.out.println("NEW: " + newValue.getText());
                     //setvisible
-                    if(newValue.getText().equals("Suchen")) {
-                        labAdresse.setVisible(true);
-                        labTelefon.setVisible(true);
+                    if (newValue.getText().equals("Suchen")) {
+
                         startNeu.setVisible(false);
                         startSuche.setVisible(false);
-                        name.setVisible(true);
-
-                        suchen.setVisible(true);
                         speichern.setVisible(false);
                         adresse.setVisible(false);
                         telefonnummer.setVisible(false);
+                        googleLink.setVisible(false);
+
+                        suchen.setVisible(true);
+                        labAdresse.setVisible(true);
+                        labTelefon.setVisible(true);
+                        name.setVisible(true);
                         navi.setVisible(true);
                     }
-                    if(newValue.getText().equals("Speichern")) {
+                    if (newValue.getText().equals("Speichern")) {
                         labAdresse.setVisible(false);
                         labTelefon.setVisible(false);
                         startNeu.setVisible(false);
                         startSuche.setVisible(false);
-                        name.setVisible(true);
-
                         suchen.setVisible(false);
+                        navi.setVisible(false);
+                        googleLink.setVisible(false);
+
+                        name.setVisible(true);
                         speichern.setVisible(true);
                         adresse.setVisible(true);
                         telefonnummer.setVisible(true);
-                        navi.setVisible(false);
+
                     }
-                    if(newValue.getText().equals("Start")) {
+                    if (newValue.getText().equals("Start")) {
                         labAdresse.setVisible(false);
                         labTelefon.setVisible(false);
                         suchen.setVisible(false);
@@ -150,13 +158,13 @@ public class Controller implements Initializable {
                         telefonnummer.setVisible(false);
                         name.setVisible(false);
                         navi.setVisible(false);
+                        googleLink.setVisible(false);
 
                         startNeu.setVisible(true);
                         startSuche.setVisible(true);
                     }
 
-                    if(tabNeu){
-                        newValue.setText("Navigation");
+                    if (newValue.getText().equals("Navigation")) {
                         labAdresse.setVisible(false);
                         labTelefon.setVisible(false);
                         suchen.setVisible(false);
@@ -164,35 +172,56 @@ public class Controller implements Initializable {
                         adresse.setVisible(false);
                         telefonnummer.setVisible(false);
                         name.setVisible(false);
-
                         startNeu.setVisible(false);
                         startSuche.setVisible(false);
                         navi.setVisible(false);
 
+                        googleLink.setVisible(true);
+                        googleLink.getEngine().load("http://www.google.de/maps/" + mapsFind(labAdresse));
+
 
                     }
-    }
+                }
         );
     }
 
-    public void tabNeuKontakt(MouseDragEvent mouseDragEvent) {
+    public String mapsFind(Label labAdresse) {
+        text = "";
+        for (int i = 0; i < labAdresse.getText().length(); i++) {
+            if(labAdresse.getText()[i].equals("-")) {
+
+            }
+            if(labAdresse.getText()[i].equals(" ")) {
+
+            }
+            if(labAdresse.getText()[i].equals(":")) {
+
+            }
+            if(labAdresse.getText()[i].equals("-")) {
+
+            }
+
+
+        }
+        return text;
+
     }
 
-    public void tabKontaktSuche(MouseDragEvent mouseDragEvent) {
+    public void tabNeuKontakt(MouseEvent mouseDragEvent) {
+
+        tabs.getSelectionModel().select(speichernTab);
+
+
     }
 
-    public void tabMaps(MouseDragEvent mouseDragEvent) {
-       /* tabNeu = true;
-        initialize(URL location, ResourceBundle resource); */
+    public void tabKontaktSuche(MouseEvent mouseDragEvent) {
+
+        tabs.getSelectionModel().select(suchenTab);
+
     }
 
+    public void tabMaps(MouseEvent mouseDragEvent) {
+        tabs.getSelectionModel().select(naviTab);
+    }
 
-  /*  public boolean tabKontaktSuche(MouseEvent) throws IOException {
-       if();)
-           return true;
-    } return false;
-
-    public void tabNeuKontakt(MouseDragEvent mouseDragEvent) {
-
-    } */
 }

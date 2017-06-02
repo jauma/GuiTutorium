@@ -10,27 +10,31 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.web.WebView?>
 
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <TabPane fx:id="tabs" prefHeight="167.0" prefWidth="228.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowSpan="6">
      <tabs>
-         <Tab text="Start" />
+         <Tab fx:id="startTab" text="Start" />
 
-       <Tab text="Suchen" />
-         <Tab text="Speichern" />
+       <Tab fx:id="suchenTab" text="Suchen" />
+         <Tab fx:id="speichernTab" text="Speichern" />
+        <Tab fx:id="naviTab" text="Navigation" />
      </tabs>
    </TabPane>
-   <Button fx:id="startNeu" mnemonicParsing="false" onMouseDragEntered="#tabNeuKontakt" text="Neuer Kontakt" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-   <Button fx:id="startSuche" mnemonicParsing="false" onMouseDragEntered="#tabKontaktSuche" text="Kontakt suchen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-   <Button fx:id="navi" mnemonicParsing="false" onMouseDragEntered="#tabMaps" text="Navigation" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+   <WebView fx:id="googleLink" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="4" />
+
+   <Button fx:id="startNeu" mnemonicParsing="false" onMouseClicked="#tabNeuKontakt" text="Neuer Kontakt" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+   <Button fx:id="startSuche" mnemonicParsing="false" onMouseClicked="#tabKontaktSuche" text="Kontakt suchen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+   <Button fx:id="navi" mnemonicParsing="false" onMouseClicked="#tabMaps" text="Navigation" GridPane.columnIndex="3" GridPane.rowIndex="6" />
    <Button fx:id="speichern" onMouseClicked="#speichern" text="Speichern" GridPane.columnIndex="2" GridPane.rowIndex="6" />
    <Button fx:id="suchen" onMouseClicked="#suchen" text="Suchen" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="6" />
    <TextField fx:id="name" onDragDone="#changeColor" promptText="Name" GridPane.columnIndex="2" GridPane.rowIndex="2">
       <effect>
          <InnerShadow color="#3bc92b" />
       </effect></TextField>
-    <Label fx:id="labAdresse" prefHeight="33.0" prefWidth="147.0" text="" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
-   <Label fx:id="labTelefon" prefHeight="29.0" prefWidth="149.0" text="" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+    <Label fx:id="labAdresse" prefHeight="33.0" prefWidth="147.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+   <Label fx:id="labTelefon" prefHeight="29.0" prefWidth="149.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
 
    <TextField fx:id="adresse" promptText="Adresse" GridPane.columnIndex="2" GridPane.rowIndex="3" />
    <TextField fx:id="telefonnummer" promptText="Telefonnummer" GridPane.columnIndex="2" GridPane.rowIndex="4" />
