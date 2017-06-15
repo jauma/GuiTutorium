@@ -10,6 +10,9 @@ import javafx.scene.web.WebView;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 
@@ -27,7 +30,6 @@ public class Controller implements Initializable {
     public Label labTelefon;
     public Button startNeu;
     public Button startSuche;
-    public Boolean tabNeu = false;
     public Button navi;
     public Tab suchenTab;
     public Tab startTab;
@@ -48,49 +50,43 @@ public class Controller implements Initializable {
     }
 
     public void speichern(MouseEvent mouseEvent) throws IOException {
+        Person person = new Person(name.getText(), adresse.getText(), telefonnummer.getText());
+        String dateiName = "Person" + name.getText();
+        FileOutputStream fileOutputStream = new FileOutputStream(dateiName);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(person);
+        objectOutputStream.close();
 
-        String strName = name.getText();
-        String strAdresse = adresse.getText();
-        String strTelefonnummer = telefonnummer.getText();
-
-
-        String dateiName = "Person" + strName + ".txt";
-
-        FileOutputStream speichern = new FileOutputStream(dateiName);
-        for (int i = 0; i < strName.length(); i++) {
-            speichern.write(strName.charAt(i));
-        }
-        speichern.close();
-
-        String dateiAdresse = "Person" + strName + 1 + ".txt";
-        FileOutputStream speichern1 = new FileOutputStream(dateiAdresse);
-        for (int i = 0; i < strAdresse.length(); i++) {
-            speichern1.write((byte) strAdresse.charAt(i));
-        }
-        speichern1.close();
-
-
-        String dateiTelefonnummer = "Person" + strName + 2 + ".txt";
-        FileOutputStream speichern2 = new FileOutputStream(dateiTelefonnummer);
-        for (int i = 0; i < strTelefonnummer.length(); i++) {
-            speichern2.write((byte) strTelefonnummer.charAt(i));
-        }
-        speichern2.close();
-
-        System.out.println("Datei ist gespeichert");
-
+        System.out.println("Datei gespeichert");
     }
 
     public void suchen(MouseEvent mouseEvent) throws IOException {
         byte zeichen;
         String text = "";
         String text2 = "";
+        String StrA = "a";
+        String StrE = "e";
+        String Esz = "ß";
+
+        //try, catch. Ausgabe ,wenn der Name nicht gespeichert ist
+        //evtl. namenvorschläge einarbeiten.
 
         String dateiName1 = "Person" + name.getText() + 1 + ".txt";
         FileInputStream suchen1 = new FileInputStream(dateiName1);
         do {
             zeichen = (byte) suchen1.read();
             text += (char) zeichen;
+            for(int i=0; i< text.length(); i++) {
+                if (text.charAt(i)== StrA.charAt(0) && text.charAt(i + 2) == StrE.charAt(0) ) {
+                   //text =  text.substring(0, i) + "ß" + text.substring(i, text.length()-1);
+                   //text.replace(text.charAt(i+1), Esz.charAt(0));
+                   String[] parts = text.split("☐", 2);
+                   String part1 = parts[0];
+                   String part2 = parts[1];
+
+                   text = part1 + "ß" + part2;
+                }
+            }
         } while (zeichen != -1); // bis zum Ende
 
         labAdresse.setText(text);
@@ -177,7 +173,8 @@ public class Controller implements Initializable {
                         navi.setVisible(false);
 
                         googleLink.setVisible(true);
-                        googleLink.getEngine().load("http://www.google.de/maps/" + mapsFind(labAdresse));
+                        System.out.print("https://www.google.de/maps/place/" + mapsFind(labAdresse));
+                        googleLink.getEngine().load("https://www.google.de/maps/place/" + mapsFind(labAdresse));
 
 
                     }
@@ -186,24 +183,46 @@ public class Controller implements Initializable {
     }
 
     public String mapsFind(Label labAdresse) {
+
+        // einzelne Wörter vorher durchlaufen
+        // ober beim Speichern anpassen
+
         text = "";
-        for (int i = 0; i < labAdresse.getText().length(); i++) {
-            if(labAdresse.getText()[i].equals("-")) {
+        String leer = " ";
+        String ß = "ß";
+        String ae = "ä";
+        String ue = "ü";
+        String oe = "ö";
+        for (int i = 0; i < labAdresse.getText().length()-1; i++) {
+            if (labAdresse.getText().charAt(i) == leer.charAt(0)) {
+                text = text + "+";
+                i++;
 
             }
-            if(labAdresse.getText()[i].equals(" ")) {
+            if (labAdresse.getText().charAt(i) == ß.charAt(0)) {
+                text = text + "%C3%9F";
+                i++;
 
             }
-            if(labAdresse.getText()[i].equals(":")) {
+            if (labAdresse.getText().charAt(i) == ae.charAt(0)) {
+                text = text + "%C3%BC";
+                i++;
 
             }
-            if(labAdresse.getText()[i].equals("-")) {
+            if (labAdresse.getText().charAt(i) == ue.charAt(0)) {
+                text = text + "%C3%9C";
+                i++;
 
             }
+            if (labAdresse.getText().charAt(i) == oe.charAt(0)) {
+                text = text + "%C3%B6";
+                i++;
 
-        }
-        return text;
+            }
+            text = text + labAdresse.getText().charAt(i);
 
+
+        }return text;
     }
 
     public void tabNeuKontakt(MouseEvent mouseDragEvent) {

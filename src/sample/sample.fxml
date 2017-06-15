@@ -22,7 +22,7 @@
         <Tab fx:id="naviTab" text="Navigation" />
      </tabs>
    </TabPane>
-   <WebView fx:id="googleLink" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="4" />
+   <WebView fx:id="googleLink" prefWidth="900.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="7" />
 
    <Button fx:id="startNeu" mnemonicParsing="false" onMouseClicked="#tabNeuKontakt" text="Neuer Kontakt" GridPane.columnIndex="3" GridPane.rowIndex="3" />
    <Button fx:id="startSuche" mnemonicParsing="false" onMouseClicked="#tabKontaktSuche" text="Kontakt suchen" GridPane.columnIndex="2" GridPane.rowIndex="3" />
